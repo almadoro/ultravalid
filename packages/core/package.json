@@ -21,7 +21,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "repository": "https://github.com/almadoro/core.git",
+  "repository": "https://github.com/almadoro/ultravalid.git",
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "jest -c ../../jest.config.js --coverageDirectory ./coverage/core"
