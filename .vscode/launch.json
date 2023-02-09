@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Test",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run test -- --runTestsByPath ${file}",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "name": "Debug Type Test",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run test -- --globals=\\'{\\\"file\\\":\\\"${file}\\\"}\\' --runTestsByPath ./packages/core/__tests__/types/index.test.ts",
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}
