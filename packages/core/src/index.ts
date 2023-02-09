@@ -21,6 +21,7 @@ export * from "./StructSchema";
 export { default as StructSchema } from "./StructSchema";
 export { default as symbol } from "./symbol";
 export { default as tuple } from "./tuple";
+export * from "./type";
 export { default as type } from "./type";
 export { default as union } from "./union";
 export { default as unknown } from "./unknown";
