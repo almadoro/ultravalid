@@ -3,7 +3,7 @@
   "type": "module",
   "description": "Typescript like syntax validation library",
   "author": "almadoro",
-  "version": "0.1.4",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
