@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@almadoro/core",
   "type": "module",
   "description": "Typescript like syntax validation library",
   "author": "almadoro",
@@ -29,6 +29,5 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "jest -c ../../jest.config.js --coverageDirectory ./coverage/core"
-  },
-  "dummy": true
+  }
 }
