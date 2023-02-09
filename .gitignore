@@ -3,3 +3,4 @@ dist/
 coverage/
 .vscode/settings.json
 .npmrc
+lerna-debug.log
