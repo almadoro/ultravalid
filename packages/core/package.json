@@ -29,5 +29,6 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "jest -c ../../jest.config.js --coverageDirectory ./coverage/core"
-  }
+  },
+  "dummy": true
 }
