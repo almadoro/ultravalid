@@ -5,13 +5,13 @@
   "author": "almadoro",
   "version": "0.1.8",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -27,7 +27,7 @@
     "directory": "packages/core"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
     "test": "jest -c ../../jest.config.js --coverageDirectory ./coverage/core"
   }
 }
