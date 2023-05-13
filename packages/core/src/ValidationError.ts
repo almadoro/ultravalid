@@ -8,19 +8,19 @@ export default class ValidationError extends Error {
   /**
    * Contains evaluated schema for each `branch` item.
    */
-  public readonly schema: Schema<unknown>[];
+  public readonly schema: Schema<unknown, unknown>[];
   /**
    * Descending order keys from root value to the actual failing value.
    */
   public readonly path: string[] = [];
 
-  constructor(message: string, value: unknown, schema: Schema<unknown>) {
+  constructor(message: string, value: unknown, schema: Schema<any, any>) {
     super(message);
     this.branch = [value];
     this.schema = [schema];
   }
 
-  public addEntry(key: string, value: unknown, schema: Schema<unknown>) {
+  public addEntry(key: string, value: unknown, schema: Schema<any, any>) {
     this.path.unshift(key);
     this.branch.unshift(value);
     this.schema.unshift(schema);

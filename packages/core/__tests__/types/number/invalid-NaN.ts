@@ -1,7 +1,7 @@
-import { number } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { number } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<number> = {
   spec: number,
   value: NaN,
 };

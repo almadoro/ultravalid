@@ -1,5 +1,5 @@
-import { never, type } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { never, type } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<{ prop?: never }> = {
   spec: type({ "prop?": never }),

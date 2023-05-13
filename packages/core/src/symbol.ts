@@ -1,7 +1,7 @@
 import schema from "./schema";
 
 /**
- * Validates typeof value is `symbol`.
+ * Validates type of value is `symbol`.
  */
 const symbol = schema<symbol>("symbol", (v) => typeof v === "symbol");
 

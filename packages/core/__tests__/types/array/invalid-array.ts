@@ -1,7 +1,7 @@
-import { any, array } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { any, array } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<any[]> = {
   spec: array(any),
   value: "123",
 };

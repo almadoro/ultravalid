@@ -1,7 +1,7 @@
-import { never } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { never } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<never> = {
   spec: never,
   value: "asd",
 };

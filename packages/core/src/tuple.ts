@@ -1,5 +1,5 @@
 import never from "./never";
-import { Schema } from "./schema";
+import { Schema, TypeCheckGenFn } from "./schema";
 import type, { Spec, SpecType } from "./type";
 import { fmt, Narrow } from "./utils";
 import ValidationError from "./ValidationError";
@@ -14,64 +14,72 @@ import ValidationError from "./ValidationError";
  */
 export default function tuple<S extends Spec[]>(
   ...spec: Narrow<S>
-): Schema<TupleSpecType<S>> {
-  const entries: Schema<unknown>[] = [];
+): Schema<TupleSpecType<S>, TupleMetadata> {
+  const itemSchemas: Schema<any, any>[] = [];
   for (let i = 0; i < spec.length; i++) {
-    entries.push(type<any>(spec[i]));
+    itemSchemas.push(type<any>(spec[i]));
   }
 
-  return new Schema<any>("tuple", function* (
-    this: Schema<unknown[]>,
-    inputValue,
-    ctx
-  ) {
-    if (!Array.isArray(inputValue)) {
-      yield [
-        null,
-        new ValidationError(
-          fmt`Expected a tuple but received "${inputValue}"`,
-          inputValue,
-          this
-        ),
-      ];
-      return;
-    }
-
-    const value: unknown[] = [];
-    for (let i = 0; i < entries.length; i++) {
-      const key = i.toString();
-      const inputItemValue = inputValue[i];
-      const schema = entries[i];
-      const result = schema.evaluate(inputItemValue, {
-        ...ctx,
-        key,
-        parentHasOwnProperty: true,
-      });
-      for (const [itemValue, error] of result) {
-        if (error) yield [null, error.addEntry(key, inputValue, this)];
-        else value[i] = itemValue;
-      }
-    }
-
-    for (let i = entries.length; i < inputValue.length; i++) {
-      const key = i.toString();
-      const inputItemValue = inputValue[i];
-      const result = never.evaluate(inputItemValue, {
-        ...ctx,
-        key,
-        parentHasOwnProperty: true,
-      });
-      for (const [, error] of result) {
-        if (error) yield [null, error.addEntry(key, inputValue, this)];
-      }
-    }
-
-    yield [value, null];
-  });
+  return new Schema<TupleSpecType<S>, TupleMetadata>(
+    "tuple",
+    { itemSchemas },
+    tupleTypeCheck
+  );
 }
+
+const tupleTypeCheck: TypeCheckGenFn<
+  any,
+  Schema<any, TupleMetadata>
+> = function* (inputValue, ctx) {
+  if (!Array.isArray(inputValue)) {
+    yield [
+      null,
+      new ValidationError(
+        fmt`Expected a tuple but received "${inputValue}"`,
+        inputValue,
+        ctx.schema
+      ),
+    ];
+    return;
+  }
+
+  const value: unknown[] = [];
+  const itemSchemas = ctx.schema.metadata.itemSchemas;
+  for (let i = 0; i < ctx.schema.metadata.itemSchemas.length; i++) {
+    const key = i.toString();
+    const inputItemValue = inputValue[i];
+    const schema = itemSchemas[i];
+    const [entryValue, entryError] = schema._attempt(inputItemValue, {
+      options: ctx.options,
+      key,
+      parentHasOwnProperty: true,
+    });
+    if (entryError)
+      yield [null, entryError.addEntry(key, inputValue, ctx.schema)];
+    else value[i] = entryValue;
+  }
+
+  for (let i = itemSchemas.length; i < inputValue.length; i++) {
+    const key = i.toString();
+    const inputItemValue = inputValue[i];
+    const [entryValue, entryError] = never._attempt(inputItemValue, {
+      options: ctx.options,
+      key,
+      parentHasOwnProperty: true,
+    });
+    if (entryError)
+      yield [null, entryError.addEntry(key, inputValue, ctx.schema)];
+  }
+
+  yield [value, null];
+};
 
 export interface TupleSpec extends Array<Spec> {}
 
 export type TupleSpecType<S extends TupleSpec> = {
   [K in keyof S]: S[K] extends Function ? S[K] : SpecType<S[K]>;
 };
+
+export interface TupleMetadata {
+  itemSchemas: Schema<any, any>[];
+}

@@ -1,7 +1,7 @@
-import { string, type } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { string, type } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<string> = {
   spec: type(string),
   value: 1,
 };

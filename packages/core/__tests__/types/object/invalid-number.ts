@@ -1,7 +1,7 @@
-import { object, type } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { object, type } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<object> = {
   spec: type(object),
   value: 3,
 };

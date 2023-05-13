@@ -1,7 +1,7 @@
 import schema from "./schema";
 
 /**
- * Validates typeof value is `number` and is not `NaN`.
+ * Validates type of value is `number` and is not `NaN`.
  *
  * If `Nan` should be accepted use `union(number, NaN)`.
  * To check only for `NaN` use `literal(NaN)`.

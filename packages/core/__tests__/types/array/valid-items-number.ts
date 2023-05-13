@@ -1,5 +1,5 @@
-import { array, number } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { array, number } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<number[]> = {
   spec: array(number),

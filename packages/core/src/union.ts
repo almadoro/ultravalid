@@ -1,4 +1,4 @@
-import { Schema } from "./schema";
+import { Schema, TypeCheckGenFn } from "./schema";
 import type, { Spec, SpecType } from "./type";
 import { ArrayElement, fmt, Narrow } from "./utils";
 import ValidationError from "./ValidationError";
@@ -10,28 +10,40 @@ import ValidationError from "./ValidationError";
  * union("Point2D", number, number);
  * type([number, string]); // Same as "union(number, string)"
  */
-export default function union<S extends Spec[]>(
-  ...specs: Narrow<S>
-): Schema<SpecType<ArrayElement<S>>> {
-  const unionTypes = specs.map((spec) => type(spec as Schema<unknown>));
-  const unionTypesStr = unionTypes
-    .map((validation) => validation.name)
-    .join(" | ");
+export default function union<S extends Spec[]>(...specs: Narrow<S>) {
+  const schemas = specs.map((spec) => type(spec));
+  return new Schema<SpecType<ArrayElement<S>>, UnionMetadata>(
+    "union",
+    { schemas },
+    unionTypeCheck
+  );
+}
 
-  return new Schema<any>("union", function* (this: Schema<any>, inputValue) {
-    for (const type of unionTypes) {
-      const { value, error } = type.validate(inputValue);
-      if (error) continue;
-      yield [value, null];
-      return;
+const unionTypeCheck: TypeCheckGenFn<
+  any,
+  Schema<any, UnionMetadata>
+> = function* (inputValue, ctx) {
+  const errorMsgs: string[] = [];
+  for (const type of ctx.schema.metadata.schemas) {
+    const { value, error } = type.validate(inputValue, ctx.options);
+    if (error) {
+      errorMsgs.push(error.message);
+      continue;
     }
-    yield [
-      null,
-      new ValidationError(
-        fmt`Expected value to satisfy union of "${unionTypesStr}" but received ${inputValue}`,
-        inputValue,
-        this
-      ),
-    ];
-  });
+    yield [value, null];
+    return;
+  }
+  yield [
+    null,
+    new ValidationError(
+      fmt`Invalid value "${inputValue}" received. Expected to satisfy one of multiple schemas.` +
+        `The reported errors are:\n${errorMsgs.join("\n")}`,
+      inputValue,
+      ctx.schema
+    ),
+  ];
+};
+
+export interface UnionMetadata {
+  schemas: Schema<any, any>[];
 }

@@ -1,4 +1,4 @@
-import { Schema, schema, validate, ValidationError } from "@ultravalid/core";
+import { Schema, schema, validate, ValidationError } from "@almadoro/uv-core";
 
 test("Throwed errors are forwarded", () => {
   const spec = schema("customType", () => {
@@ -26,6 +26,6 @@ test("Successful validation", () => {
 });
 
 test("Throws an Error when schema doesnt yield", () => {
-  const spec = new Schema("custom", function* () {});
+  const spec = new Schema("custom", null, function* () {});
   expect(() => validate(1, spec)).toThrow(Error);
 });

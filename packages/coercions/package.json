@@ -1,0 +1,39 @@
+{
+  "name": "@almadoro/uv-coercions",
+  "type": "module",
+  "version": "0.1.8",
+  "description": "Common coercions for ultravalid",
+  "author": "almadoro",
+  "license": "ISC",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almadoro/ultravalid.git",
+    "directory": "packages/coercions"
+  },
+  "scripts": {
+    "build": "tsup-node src/index.ts --format esm,cjs --dts --clean",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/almadoro/ultravalid/issues"
+  },
+  "dependencies": {
+    "@almadoro/uv-core": "^0.1.8"
+  }
+}

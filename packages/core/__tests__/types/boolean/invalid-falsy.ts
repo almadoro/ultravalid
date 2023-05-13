@@ -1,7 +1,7 @@
-import { boolean, type } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { boolean, type } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<boolean> = {
   spec: type(boolean),
   value: 0,
 };

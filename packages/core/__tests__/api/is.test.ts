@@ -1,4 +1,4 @@
-import { is, Schema, schema } from "@ultravalid/core";
+import { is, Schema, schema } from "@almadoro/uv-core";
 
 const spec = schema(
   "customType",
@@ -10,6 +10,6 @@ test("Returns false when validation fails", () => {
 });
 
 test("Throws an Error when schema doesnt yield", () => {
-  const spec = new Schema("custom", function* () {});
+  const spec = new Schema("custom", null, function* () {});
   expect(() => is(1, spec)).toThrow(Error);
 });

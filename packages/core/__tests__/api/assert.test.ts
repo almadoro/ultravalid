@@ -1,4 +1,4 @@
-import { assert, Schema, schema, ValidationError } from "@ultravalid/core";
+import { assert, Schema, schema, ValidationError } from "@almadoro/uv-core";
 
 const spec = schema("custom", (v) => typeof v === "string" || "Error message");
 
@@ -11,6 +11,6 @@ test("Does not throw when validation succeeds", () => {
 });
 
 test("Throws an Error when schema doesnt yield", () => {
-  const spec = new Schema("custom", function* () {});
+  const spec = new Schema("custom", null, function* () {});
   expect(() => assert(1, spec)).toThrow(Error);
 });

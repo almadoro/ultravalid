@@ -1,5 +1,5 @@
-import { number, string, struct } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { number, string, struct } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<{ id: number; name?: string }> = {
   spec: struct({ id: number, "name?": string }),

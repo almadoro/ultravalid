@@ -1,7 +1,7 @@
-import { number, string, tuple } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { number, string, tuple } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<[string, number, number, number]> = {
   spec: tuple(string, number, number, number),
   value: ["str", 1, 2, "3"],
   error: {

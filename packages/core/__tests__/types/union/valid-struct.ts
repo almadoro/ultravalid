@@ -1,5 +1,5 @@
-import { number, string, union } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { number, string, union } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<number | { id: string; name?: string }> = {
   spec: union(number, { id: string, "name?": string }),

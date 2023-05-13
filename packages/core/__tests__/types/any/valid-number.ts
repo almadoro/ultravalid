@@ -1,5 +1,5 @@
-import { any, type } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { any, type } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<any> = {
   spec: type(any),

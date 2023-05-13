@@ -1,7 +1,7 @@
-import { bigint, type } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { bigint, type } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<bigint> = {
   spec: type(bigint),
   value: 42,
 };

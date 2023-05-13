@@ -10,7 +10,7 @@ import {
   tuple,
   type,
   union,
-} from "@ultravalid/core";
+} from "@almadoro/uv-core";
 
 declare class CustomClass {}
 

@@ -1,7 +1,7 @@
-import { number, struct } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { number, struct } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<{ id: number }> = {
   spec: struct({ id: number }),
   value: () => {},
 };

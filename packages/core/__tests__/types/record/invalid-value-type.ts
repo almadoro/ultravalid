@@ -1,7 +1,7 @@
-import { number, record, string } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { number, record, string } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<Record<string, number>> = {
   spec: record(string, number),
   value: { prop: "1" },
   error: {

@@ -1,11 +1,7 @@
-import { StructSchema, validate, ValidationError } from "@ultravalid/core";
+import { Schema, validate, ValidationError } from "@almadoro/uv-core";
 import * as fs from "fs";
 import * as path from "path";
-import {
-  ErrorContext,
-  InvalidTestExports,
-  ValidTestExports,
-} from "./testTypes";
+import { ErrorContext, InvalidTestExports, ValidTestExports } from "./tests";
 
 const typesTests = fs
   .readdirSync(path.resolve(__dirname), { withFileTypes: true })
@@ -55,7 +51,8 @@ function validTest({
   differentInstance,
   exactOptionalPropertyTypes,
 }: ValidTestExports<unknown>) {
-  StructSchema.exactOptionalPropertyTypes = exactOptionalPropertyTypes || false;
+  Schema.config.exactOptionalPropertyTypes =
+    exactOptionalPropertyTypes || false;
   const { value, error } = validate(inputValue, spec);
   expect(error).toBeNull();
   if (differentInstance) {
@@ -69,8 +66,9 @@ function invalidTest({
   value: inputValue,
   error: ctx,
   exactOptionalPropertyTypes,
-}: InvalidTestExports) {
-  StructSchema.exactOptionalPropertyTypes = exactOptionalPropertyTypes || false;
+}: InvalidTestExports<any>) {
+  Schema.config.exactOptionalPropertyTypes =
+    exactOptionalPropertyTypes || false;
   const { value, error } = validate(inputValue, spec);
   expect(value).toBeNull();
   expect(error).toBeInstanceOf(ValidationError);

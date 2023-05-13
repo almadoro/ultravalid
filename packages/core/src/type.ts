@@ -1,8 +1,8 @@
-import instance, { InstanceSpec } from "./instance";
-import literal, { LiteralSpec } from "./literal";
+import instance, { InstanceMetadata, InstanceSpec } from "./instance";
+import literal, { LiteralMetadata, LiteralSpec } from "./literal";
 import { Schema } from "./schema";
-import struct, { StructSpec, StructSpecType } from "./struct";
-import tuple, { TupleSpec, TupleSpecType } from "./tuple";
+import struct, { StructMetadata, StructSpec, StructSpecType } from "./struct";
+import tuple, { TupleMetadata, TupleSpec, TupleSpecType } from "./tuple";
 import { Narrow } from "./utils";
 
 /**
@@ -14,26 +14,26 @@ import { Narrow } from "./utils";
  * type({ id: string }) // Same as "struct({ id: string })"
  * type([number, string]) // Same as "tuple(number, string)"
  * type(Date) // Same as "instance(Date)"
- * type(number); // Same as "literal(number)"
+ * type(2); // Same as "literal(2)"
  */
 export default function type<S extends Spec>(
   spec: Narrow<S>
-): Schema<SpecType<S>> {
+): Schema<SpecType<S>, SpecMetadata<S>> {
   switch (typeof spec) {
     case "object":
       if (spec instanceof Schema) return spec;
-      if (Array.isArray(spec)) return tuple(...spec) as Schema<any>;
-      if (spec !== null) return struct(spec) as Schema<any>;
-      return literal<any>(null);
+      if (Array.isArray(spec)) return tuple(...spec) as Schema<any, any>;
+      if (spec !== null) return struct(spec) as Schema<any, any>;
+      return literal(null) as Schema<any, any>;
     case "symbol":
     case "string":
     case "number":
     case "bigint":
     case "boolean":
     case "undefined":
-      return literal<any>(spec);
+      return literal(spec) as Schema<any, any>;
     case "function":
-      return instance(spec as any);
+      return instance(spec) as Schema<any, any>;
   }
 }
 
@@ -43,14 +43,14 @@ export default function type<S extends Spec>(
 export type Spec =
   | TupleSpec
   | StructSpec
-  | Schema<unknown>
-  | InstanceSpec<unknown>
+  | Schema<any, any>
+  | InstanceSpec<any>
   | LiteralSpec;
 
 /**
  * Returns equivalent type to specified Spec.
  */
-export type SpecType<S> = S extends Schema<infer T>
+export type SpecType<S> = S extends Schema<infer T, infer _>
   ? T
   : S extends InstanceSpec<infer T>
   ? T
@@ -60,4 +60,16 @@ export type SpecType<S> = S extends Schema<infer T>
   ? TupleSpecType<S>
   : S extends StructSpec
   ? StructSpecType<S>
+  : never;
+
+export type SpecMetadata<S> = S extends Schema<infer _, infer M>
+  ? M
+  : S extends InstanceSpec<infer T>
+  ? InstanceMetadata<T>
+  : S extends LiteralSpec
+  ? LiteralMetadata<S>
+  : S extends TupleSpec
+  ? TupleMetadata
+  : S extends StructSpec
+  ? StructMetadata
   : never;

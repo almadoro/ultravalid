@@ -1,7 +1,7 @@
 import schema from "./schema";
 
 /**
- * Validates typeof value is `boolean`.
+ * Validates type of value is `boolean`.
  */
 const boolean = schema<boolean>("boolean", (v) => typeof v === "boolean");
 

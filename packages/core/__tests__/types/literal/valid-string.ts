@@ -1,5 +1,5 @@
-import { literal } from "@ultravalid/core";
-import { ValidTestExports } from "../testTypes";
+import { literal } from "@almadoro/uv-core";
+import { ValidTestExports } from "../tests";
 
 const test: ValidTestExports<"123"> = {
   spec: literal("123"),

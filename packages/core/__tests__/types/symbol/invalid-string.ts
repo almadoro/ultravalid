@@ -1,7 +1,7 @@
-import { symbol, type } from "@ultravalid/core";
-import { InvalidTestExports } from "../testTypes";
+import { symbol, type } from "@almadoro/uv-core";
+import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports = {
+const test: InvalidTestExports<symbol> = {
   spec: type(symbol),
   value: "@@iterator",
 };

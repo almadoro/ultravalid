@@ -1,14 +1,20 @@
 import { Schema } from "./schema";
-import StructSchema, { StructKey } from "./StructSchema";
+import { StructKey, StructMetadata, strutcTypeCheck } from "./struct";
 import type, { Spec, SpecType } from "./type";
 import { Narrow } from "./utils";
 
 export default function record<
-  S extends Record<SpecType<K>, V>,
-  K extends StructKey | Schema<StructKey>,
+  S extends Record<SpecType<K>, SpecType<V>>,
+  K extends StructKey | Schema<StructKey, any>,
   V extends Spec
->(key: K, value: Narrow<V>): StructSchema<S> {
-  return new StructSchema("record", {
-    dynamicEntries: [[type<any>(key), type(value)]],
-  });
+>(key: Narrow<K>, value: Narrow<V>): Schema<S, StructMetadata> {
+  return new Schema(
+    "record",
+    {
+      staticEntries: [],
+      staticOptionalEntries: [],
+      dynamicEntries: [[type<any>(key), type(value)]],
+    },
+    strutcTypeCheck
+  );
 }
