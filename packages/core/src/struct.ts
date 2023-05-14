@@ -3,9 +3,14 @@ import literal from "./literal";
 import never from "./never";
 import object from "./object";
 import { Schema, TypeCheckGenFn } from "./schema";
-import type, { Spec, SpecType } from "./type";
+import type, { SpecType } from "./type";
 import union from "./union";
-import { ExpandRecursively, fmt, Narrow, UnionToIntersection } from "./utils";
+import {
+  ExpandRecursively,
+  fmt,
+  UnionToIntersection,
+  Writeable,
+} from "./utils";
 import ValidationError from "./ValidationError";
 
 /**
@@ -36,7 +41,7 @@ import ValidationError from "./ValidationError";
  *  "name?": string,
  * })
  */
-export default function struct<S extends StructSpec>(spec: Narrow<S>) {
+export default function struct<const S extends StructSpec>(spec: S) {
   const staticEntries: StructStaticEntry[] = [];
   const staticOptionalEntries: StructStaticEntry[] = [];
 
@@ -147,13 +152,20 @@ export const strutcTypeCheck: TypeCheckGenFn<
   yield [value as any, null];
 };
 
+export type StructKey = string;
 export interface StructSpec {
-  [K: string]: Spec;
+  [K: StructKey]: any;
 }
 
 export type StructSpecType<S extends StructSpec> = ExpandRecursively<
-  UnionToIntersection<TransformOptionals<S>>
+  UnionToIntersection<TransformOptionals<Writeable<S>>>
 >;
+
+export interface StructMetadata {
+  staticEntries: StructStaticEntry[];
+  dynamicEntries: StructDynamicEntry[];
+  staticOptionalEntries: StructStaticEntry[];
+}
 
 export type TransformOptionals<S extends StructSpec> = {
   [K in keyof S]: K extends `${infer T}?`
@@ -161,18 +173,11 @@ export type TransformOptionals<S extends StructSpec> = {
     : { [_ in K]: SpecType<S[K]> };
 }[keyof S];
 
-export type StructKey = string;
-export type StructStaticEntry = [key: string, schema: Schema<any, any>];
+export type StructStaticEntry = [key: StructKey, schema: Schema<any, any>];
 export type StructDynamicEntry = [
   key: Schema<StructKey, any>,
   schema: Schema<any, any>
 ];
-
-export interface StructMetadata {
-  staticEntries: StructStaticEntry[];
-  dynamicEntries: StructDynamicEntry[];
-  staticOptionalEntries: StructStaticEntry[];
-}
 
 /**
  * TODO: string key symbol functionality

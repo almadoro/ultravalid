@@ -16,41 +16,10 @@ export type UnionToIntersection<U> = (
   ? I
   : never;
 
-export type ArrayElement<A extends unknown[]> = A extends (infer T)[]
+export type ArrayElement<A extends readonly any[]> = A extends ReadonlyArray<
+  infer T
+>
   ? T
   : never;
 
-/**
- * Prevent type widening on generic function parameters
- *
- * @example
- * declare function notnarrow<S>(_: S): S;
- * declare function narrow<S>(_: Narrow<S>): S;
- *
- * const notnarrowed = notnarrow({ prop: [1, 2, "3"], lit: "str" });
- * // notnarrowed type is  { prop: (string | number)[], lit: string }
- *
- * const narrowed = narrow({ prop: [1, 2, "3"], lit: "str" });
- * // narrowed type is { prop: [1, 2, "3"], lit: "str" }
- */
-export type Narrow<T extends any> = Try<T, [], _Narrow<T>>;
-
-type _Narrow<T> =
-  | (T extends [] ? [] : never)
-  | (T extends Narrowable ? T : never)
-  | {
-      [K in keyof T]: T[K] extends Function ? T[K] : _Narrow<T[K]>;
-    };
-
-type Try<A1 extends any, A2 extends any, Catch = never> = A1 extends A2
-  ? A1
-  : Catch;
-
-type Narrowable =
-  | string
-  | number
-  | bigint
-  | boolean
-  | symbol
-  | null
-  | undefined;
+export type Writeable<A> = { -readonly [K in keyof A]: A[K] };

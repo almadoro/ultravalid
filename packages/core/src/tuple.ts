@@ -1,7 +1,7 @@
 import never from "./never";
 import { Schema, TypeCheckGenFn } from "./schema";
-import type, { Spec, SpecType } from "./type";
-import { fmt, Narrow } from "./utils";
+import type, { SpecType } from "./type";
+import { fmt } from "./utils";
 import ValidationError from "./ValidationError";
 
 /**
@@ -12,12 +12,12 @@ import ValidationError from "./ValidationError";
  * tuple(string, number, number)
  * type([string, number]) // Same as "tuple(string, number)"
  */
-export default function tuple<S extends Spec[]>(
-  ...spec: Narrow<S>
+export default function tuple<const S extends readonly any[]>(
+  ...spec: S
 ): Schema<TupleSpecType<S>, TupleMetadata> {
   const itemSchemas: Schema<any, any>[] = [];
   for (let i = 0; i < spec.length; i++) {
-    itemSchemas.push(type<any>(spec[i]));
+    itemSchemas.push(type(spec[i]));
   }
 
   return new Schema<TupleSpecType<S>, TupleMetadata>(
@@ -74,10 +74,10 @@ const tupleTypeCheck: TypeCheckGenFn<
   yield [value, null];
 };
 
-export interface TupleSpec extends Array<Spec> {}
+export interface TupleSpec extends ReadonlyArray<any> {}
 
 export type TupleSpecType<S extends TupleSpec> = {
-  [K in keyof S]: S[K] extends Function ? S[K] : SpecType<S[K]>;
+  -readonly [K in keyof S]: S[K] extends Function ? S[K] : SpecType<S[K]>;
 };
 
 export interface TupleMetadata {

@@ -1,6 +1,6 @@
 import { Schema, TypeCheckGenFn } from "./schema";
-import type, { Spec, SpecType } from "./type";
-import { fmt, Narrow } from "./utils";
+import type, { SpecMetadata, SpecType } from "./type";
+import { fmt } from "./utils";
 import ValidationError from "./ValidationError";
 
 /**
@@ -10,12 +10,11 @@ import ValidationError from "./ValidationError";
  * array(string)
  * array({ id: string, age: number })
  */
-export default function array<S extends Spec>(spec: Narrow<S>) {
-  return new Schema<SpecType<S>[], ArrayMetadata<Schema<SpecType<S>, any>>>(
-    "array",
-    { itemSchema: type<any>(spec) },
-    arrayTypeCheck
-  );
+export default function array<const S>(spec: S) {
+  return new Schema<
+    SpecType<S>[],
+    ArrayMetadata<Schema<SpecType<S>, SpecMetadata<S>>>
+  >("array", { itemSchema: type(spec) }, arrayTypeCheck);
 }
 
 export const arrayTypeCheck: TypeCheckGenFn<

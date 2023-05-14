@@ -1,5 +1,4 @@
-import type, { Spec, SpecType } from "./type";
-import { Narrow } from "./utils";
+import type, { SpecType } from "./type";
 import ValidationError from "./ValidationError";
 
 /**
@@ -21,9 +20,9 @@ import ValidationError from "./ValidationError";
  *  value.prop;
  * }
  */
-export default function validate<S extends Spec>(
+export default function validate<const S>(
   value: unknown,
-  spec: Narrow<S>
+  spec: S
 ):
   | { value: SpecType<S>; error: null }
   | { value: null; error: ValidationError } {

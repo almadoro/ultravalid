@@ -72,6 +72,14 @@ if (type(["asd", "dfg", { prop1: number, constNumb: 123 }, 789]).is(temp)) {
   const c4 = temp[3];
 }
 
+if (type({ asd: "123" } as Record<string, string>).is(temp)) {
+  const c = temp.asd;
+}
+
+if (type(["asd"] as string[]).is(temp)) {
+  const c = temp[0];
+}
+
 if (
   type({ anArray: ["asd", "dfg", { reallyNested: ["wao", "nah"] }] }).is(temp)
 ) {

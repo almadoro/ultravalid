@@ -1,5 +1,4 @@
 import type, { SpecType } from "./type";
-import { Narrow } from "./utils";
 
 /**
  * Returns if `value` matches the schema.
@@ -11,9 +10,9 @@ import { Narrow } from "./utils";
  *  value.prop;
  * }
  */
-export default function is<S>(
+export default function is<const S>(
   value: unknown,
-  spec: Narrow<S>
+  spec: S
 ): value is SpecType<S> {
   return type(spec).is(value);
 }

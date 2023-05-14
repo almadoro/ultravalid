@@ -1,3 +1,4 @@
+export { default as ValidationError } from "./ValidationError";
 export { default as any } from "./any";
 export * from "./array";
 export { default as array } from "./array";
@@ -29,6 +30,5 @@ export { default as type } from "./type";
 export * from "./union";
 export { default as union } from "./union";
 export { default as unknown } from "./unknown";
-export { fmt, Narrow } from "./utils";
+export { fmt } from "./utils";
 export { default as validate } from "./validate";
-export { default as ValidationError } from "./ValidationError";

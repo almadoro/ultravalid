@@ -1,5 +1,4 @@
-import type, { Spec, SpecType } from "./type";
-import { Narrow } from "./utils";
+import type, { SpecType } from "./type";
 
 /**
  * Asserts `value` matches the schema. In case of a failure a
@@ -12,9 +11,9 @@ import { Narrow } from "./utils";
  * // will be typed.
  * value.prop;
  */
-export default function assert<S extends Spec>(
+export default function assert<const S>(
   value: unknown,
-  spec: Narrow<S>
+  spec: S
 ): asserts value is SpecType<S> {
   return type(spec).assert(value);
 }

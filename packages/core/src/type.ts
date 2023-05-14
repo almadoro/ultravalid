@@ -3,7 +3,7 @@ import literal, { LiteralMetadata, LiteralSpec } from "./literal";
 import { Schema } from "./schema";
 import struct, { StructMetadata, StructSpec, StructSpecType } from "./struct";
 import tuple, { TupleMetadata, TupleSpec, TupleSpecType } from "./tuple";
-import { Narrow } from "./utils";
+import { fmt } from "./utils";
 
 /**
  * Shorthand for creating schemas. Objects will be parsed like `struct`, arrays
@@ -16,14 +16,14 @@ import { Narrow } from "./utils";
  * type(Date) // Same as "instance(Date)"
  * type(2); // Same as "literal(2)"
  */
-export default function type<S extends Spec>(
-  spec: Narrow<S>
+export default function type<const S>(
+  spec: S
 ): Schema<SpecType<S>, SpecMetadata<S>> {
   switch (typeof spec) {
     case "object":
       if (spec instanceof Schema) return spec;
       if (Array.isArray(spec)) return tuple(...spec) as Schema<any, any>;
-      if (spec !== null) return struct(spec) as Schema<any, any>;
+      if (spec !== null) return struct<any>(spec) as Schema<any, any>;
       return literal(null) as Schema<any, any>;
     case "symbol":
     case "string":
@@ -33,19 +33,11 @@ export default function type<S extends Spec>(
     case "undefined":
       return literal(spec) as Schema<any, any>;
     case "function":
-      return instance(spec) as Schema<any, any>;
+      return instance<any, any>(spec) as Schema<any, any>;
+    default:
+      throw new Error(fmt`Invalid schema spec "${spec}"`);
   }
 }
-
-/**
- * Represents all of the `type` parseable specs.
- */
-export type Spec =
-  | TupleSpec
-  | StructSpec
-  | Schema<any, any>
-  | InstanceSpec<any>
-  | LiteralSpec;
 
 /**
  * Returns equivalent type to specified Spec.

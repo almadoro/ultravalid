@@ -1,7 +1,7 @@
-import { Schema, TypeCheckGenFn } from "./schema";
-import type, { Spec, SpecType } from "./type";
-import { ArrayElement, fmt, Narrow } from "./utils";
 import ValidationError from "./ValidationError";
+import { Schema, TypeCheckGenFn } from "./schema";
+import type, { SpecType } from "./type";
+import { ArrayElement, fmt } from "./utils";
 
 /**
  * Validates the value satisfies one of the schemas.
@@ -10,7 +10,7 @@ import ValidationError from "./ValidationError";
  * union("Point2D", number, number);
  * type([number, string]); // Same as "union(number, string)"
  */
-export default function union<S extends Spec[]>(...specs: Narrow<S>) {
+export default function union<const S extends readonly any[]>(...specs: S) {
   const schemas = specs.map((spec) => type(spec));
   return new Schema<SpecType<ArrayElement<S>>, UnionMetadata>(
     "union",
