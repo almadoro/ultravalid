@@ -1,7 +1,7 @@
 import { never, type } from "@almadoro/uv-core";
 import { InvalidTestExports } from "../tests";
 
-const test: InvalidTestExports<{ prop: never }> = {
+const test: InvalidTestExports<{ prop?: never }> = {
   spec: type({ "prop?": never }),
   value: { prop: undefined },
   error: {
