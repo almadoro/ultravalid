@@ -1,3 +1,4 @@
+import { AttemptOptions } from "./schema";
 import type, { SpecType } from "./type";
 
 /**
@@ -12,7 +13,8 @@ import type, { SpecType } from "./type";
  */
 export default function is<const S>(
   value: unknown,
-  spec: S
+  spec: S,
+  options?: AttemptOptions
 ): value is SpecType<S> {
-  return type(spec).is(value);
+  return type(spec).is(value, options);
 }

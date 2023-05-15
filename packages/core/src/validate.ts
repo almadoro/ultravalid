@@ -1,3 +1,4 @@
+import { AttemptOptions } from "./schema";
 import type, { SpecType } from "./type";
 import ValidationError from "./ValidationError";
 
@@ -22,9 +23,10 @@ import ValidationError from "./ValidationError";
  */
 export default function validate<const S>(
   value: unknown,
-  spec: S
+  spec: S,
+  options?: AttemptOptions
 ):
   | { value: SpecType<S>; error: null }
   | { value: null; error: ValidationError } {
-  return type(spec).validate(value);
+  return type(spec).validate(value, options);
 }

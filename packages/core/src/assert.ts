@@ -1,3 +1,4 @@
+import { AttemptOptions } from "./schema";
 import type, { SpecType } from "./type";
 
 /**
@@ -13,7 +14,8 @@ import type, { SpecType } from "./type";
  */
 export default function assert<const S>(
   value: unknown,
-  spec: S
+  spec: S,
+  options?: AttemptOptions
 ): asserts value is SpecType<S> {
-  return type(spec).assert(value);
+  return type(spec).assert(value, options);
 }
