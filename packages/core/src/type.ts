@@ -33,7 +33,7 @@ export default function type<const S>(
     case "undefined":
       return literal(spec) as Schema<any, any>;
     case "function":
-      return instance<any, any>(spec) as Schema<any, any>;
+      return instance<any>(spec) as Schema<any, any>;
     default:
       throw new Error(fmt`Invalid schema spec "${spec}"`);
   }
@@ -44,8 +44,8 @@ export default function type<const S>(
  */
 export type SpecType<S> = S extends Schema<infer T, infer _>
   ? T
-  : S extends InstanceSpec<infer T>
-  ? T
+  : S extends InstanceSpec
+  ? InstanceType<S>
   : S extends LiteralSpec
   ? S
   : S extends TupleSpec
@@ -56,8 +56,8 @@ export type SpecType<S> = S extends Schema<infer T, infer _>
 
 export type SpecMetadata<S> = S extends Schema<infer _, infer M>
   ? M
-  : S extends InstanceSpec<infer T>
-  ? InstanceMetadata<T>
+  : S extends InstanceSpec
+  ? InstanceMetadata<S>
   : S extends LiteralSpec
   ? LiteralMetadata<S>
   : S extends TupleSpec

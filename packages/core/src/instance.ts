@@ -10,8 +10,8 @@ import ValidationError from "./ValidationError";
  * instance(Date);
  * type(RegExp); // Same as "instance(RegExp)"
  */
-export default function instance<C extends InstanceSpec<T>, T>(spec: C) {
-  return new Schema<T, InstanceMetadata<T>>(
+export default function instance<C extends InstanceSpec>(spec: C) {
+  return new Schema<InstanceType<C>, InstanceMetadata<C>>(
     "instance",
     {
       class: spec,
@@ -32,8 +32,8 @@ export const instaceTypeCheck: TypeCheckGenFn<
   }
 };
 
-export type InstanceSpec<T> = { new (...args: any[]): T };
+export type InstanceSpec = new (...args: any[]) => any;
 
-export interface InstanceMetadata<T> {
-  class: InstanceSpec<T>;
+export interface InstanceMetadata<C> {
+  class: C;
 }
