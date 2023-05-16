@@ -12,7 +12,9 @@
       "@almadoro/uv-core": ["./packages/core/src"],
       "@almadoro/uv-core/*": ["./packages/core/src/*"],
       "@almadoro/uv-refinements": ["./packages/refinements/src"],
-      "@almadoro/uv-refinements/*": ["./packages/refinements/src/*"]
+      "@almadoro/uv-refinements/*": ["./packages/refinements/src/*"],
+      "@almadoro/uv-coercions": ["./packages/coercions/src"],
+      "@almadoro/uv-coercions/*": ["./packages/coercions/src/*"]
     }
   }
 }

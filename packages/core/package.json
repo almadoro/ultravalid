@@ -27,7 +27,7 @@
     "directory": "packages/core"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean --minify",
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
     "test": "jest"
   },
   "bugs": {

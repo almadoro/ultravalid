@@ -138,8 +138,8 @@ export class Schema<TValue, TMetadata> {
 
   protected clone() {
     const schema = new Schema(this.name, this.metadata, this.typeCheckGenFn);
-    schema.coercions.concat(this.coercions);
-    schema.refinements.concat(this.refinements);
+    schema.coercions.push(...this.coercions);
+    schema.refinements.push(...this.refinements);
     return schema;
   }
 
