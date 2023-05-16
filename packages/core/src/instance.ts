@@ -27,7 +27,7 @@ export const instaceTypeCheck: TypeCheckGenFn<
   const result = inputValue instanceof ctx.schema.metadata.class;
   if (result) yield [inputValue, null];
   else {
-    const message = fmt`Expected an instance of "${ctx.schema.name}" but received "${inputValue}"`;
+    const message = fmt`Expected an instance of "${ctx.schema.metadata.class.name}" but received "${inputValue}"`;
     yield [null, new ValidationError(message, inputValue, ctx.schema)];
   }
 };
