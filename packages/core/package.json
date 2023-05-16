@@ -1,7 +1,7 @@
 {
   "name": "@almadoro/uv-core",
   "type": "module",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Typescript like syntax validation library",
   "author": "almadoro",
   "license": "MIT",
