@@ -36,8 +36,8 @@ const unionTypeCheck: TypeCheckGenFn<
   yield [
     null,
     new ValidationError(
-      fmt`Invalid value "${inputValue}" received. Expected to satisfy one of multiple schemas.` +
-        `The reported errors are:\n${errorMsgs.join("\n")}`,
+      fmt`Invalid value "${inputValue}" received. Expected to satisfy one of multiple schemas. ` +
+        `The reported errors are: \n${errorMsgs.join("\n")}`,
       inputValue,
       ctx.schema
     ),

@@ -24,7 +24,7 @@ export default function schema<TValue>(
 
 export class Schema<TValue, TMetadata> {
   public static config: SchemaConfig = {
-    exactOptionalPropertyTypes: true,
+    exactOptionalPropertyTypes: false,
     defaultAttemptOptions: {
       unknownKeys: "error",
     },
