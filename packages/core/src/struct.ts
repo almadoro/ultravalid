@@ -134,7 +134,7 @@ export const strutcTypeCheck: TypeCheckGenFn<
     }
   }
 
-  if (ctx.options.unknownKeys !== "ignore")
+  if (ctx.options.unknownKeys === "keep" || ctx.options.unknownKeys === "error")
     for (const key of unknownKeys) {
       const inputEntryValue = (inputValue as Record<string, unknown>)[key];
       const [entryValue, entryError] = (
