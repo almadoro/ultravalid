@@ -1,6 +1,7 @@
 export { default as email } from "./email";
 export { default as endsWith } from "./endsWith";
 export { default as includes } from "./includes";
+export { default as int } from "./int";
 export { default as length } from "./length";
 export { default as max } from "./max";
 export { default as maxLength } from "./maxLength";
