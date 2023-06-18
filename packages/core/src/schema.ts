@@ -173,6 +173,8 @@ export class Schema<TValue, TMetadata> {
   }
 }
 
+export type SchemaType<T> = T extends Schema<infer S, infer _> ? S : never;
+
 export interface SchemaConfig {
   exactOptionalPropertyTypes: boolean;
   defaultAttemptOptions: AttemptOptions;

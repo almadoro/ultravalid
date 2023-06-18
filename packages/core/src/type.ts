@@ -54,6 +54,9 @@ export type SpecType<S> = S extends Schema<infer T, infer _>
   ? StructSpecType<S>
   : never;
 
+/**
+ * Returns equivalent metadata to specified Spec.
+ */
 export type SpecMetadata<S> = S extends Schema<infer _, infer M>
   ? M
   : S extends InstanceSpec
